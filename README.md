@@ -102,3 +102,33 @@ getMethod() et invoke() pour appeler la méthode d'injection.
 
 L'avantage de cette approche est qu'il est possible de changer les classes utilisées en modifiant uniquement le fichier config.txt, sans modifier la classe principale, à condition de respecter les interfaces et les méthodes attendues.
 
+Partie 4:
+-Création des dépendances
+
+![Création des dépendances](captures/dependances.png)
+
+-Injection avec Spring XML
+
+Pour cette méthode, nous déclarons les objets et leurs dépendances dans un fichier XML.
+
+Exemple de configuration config.xml :
+
+![Config XML](captures/ConfigXML.png)
+
+La classe principale utilise ensuite le conteneur Spring :
+
+![Spring XML](captures/SpringXML.png)
+
+Explication :
+
+Le bean dao représente l'objet DAO.
+
+Le bean metier représente l'objet métier.
+
+La propriété dao permet d'injecter la dépendance DAO dans l'objet métier.
+
+ApplicationContext représente le conteneur Spring.
+
+getBean() permet de récupérer un objet géré par Spring.
+
+L'avantage de cette méthode est que la configuration des dépendances est séparée du code Java.

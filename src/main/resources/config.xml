@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="d" class="net.heddady.dao.DaoImpl"></bean>
+    <bean id="metier" class="net.youssfi.metier.MetierImpl">
+        <property name="dao" ref="d" > </property>
+        <constructor-arg ref="d"></constructor-arg>
+    </bean>
+</beans>
