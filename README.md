@@ -132,3 +132,82 @@ ApplicationContext représente le conteneur Spring.
 getBean() permet de récupérer un objet géré par Spring.
 
 L'avantage de cette méthode est que la configuration des dépendances est séparée du code Java.
+
+Partie 4 
+-Injection avec Spring et les annotations
+package dao;
+
+import org.springframework.stereotype.Component;
+
+@Component("dao")
+public class DaoImpl implements IDao {
+
+    @Override
+    public double getData() {
+        System.out.println("Version base de données");
+        return 23;
+    }
+}
+
+Ensuite, nous ajoutons les annotations nécessaires dans la classe MetierImpl :
+
+package metier;
+
+import dao.IDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service("metier")
+public class MetierImpl implements IMetier {
+
+    @Autowired
+    private IDao dao;
+
+    @Override
+    public double calcul() {
+        return dao.getData() * 2;
+    }
+}
+
+Enfin, nous activons la détection automatique des composants dans la configuration Spring.
+
+Exemple avec une classe de configuration :
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan(basePackages = {"dao", "metier"})
+public class SpringConfig {
+}
+
+La classe principale devient :
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import metier.IMetier;
+
+public class PresentationSpringAnnotations {
+
+    public static void main(String[] args) {
+
+        ApplicationContext context =
+            new AnnotationConfigApplicationContext(SpringConfig.class);
+
+        IMetier metier = context.getBean(IMetier.class);
+
+        System.out.println("Résultat = " + metier.calcul());
+    }
+}
+
+Explication des annotations :
+
+@Component : indique à Spring qu'une classe est un composant à gérer.
+
+@Service : indique que la classe appartient à la couche métier.
+
+@Autowired : demande à Spring d'injecter automatiquement la dépendance.
+
+@Configuration : indique une classe de configuration Spring.
+
+@ComponentScan : permet de rechercher automatiquement les composants dans les packages indiqués.
